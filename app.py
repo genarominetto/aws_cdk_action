@@ -13,26 +13,3 @@ MyCdkProjectStack(app, "MyCdkProjectStack",
 
 app.synth()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
