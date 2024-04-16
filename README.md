@@ -15,6 +15,7 @@
     - [Save Your Access Keys](#save-your-access-keys)
     - [Store Keys as GitHub Secrets](#store-keys-as-github-secrets)
     - [Configure the Region](#configure-the-region)
+    - [Bootstrap](#bootstrap)
     - [Trigger the Workflow](#trigger-the-workflow)
     - [View the Stack in the AWS Console](#view-the-stack-in-the-aws-console)
 - [Contributing](#contributing)
@@ -46,14 +47,14 @@
 
 # Tutorial
 
-## Fork the Repository
+# Fork the Repository
 
 To start using this project, fork the repository to create a personal copy.
 
 - At the top-right of the page, you will see a button labeled "Fork". Click on this button.
 - GitHub will then create a copy of the repository under your GitHub account, effectively creating a fork.
 
-## Create an IAM User
+# Create an IAM User
 
 Create a new IAM user in your AWS account to dedicate to GitHub Actions.
 
@@ -62,7 +63,7 @@ Create a new IAM user in your AWS account to dedicate to GitHub Actions.
 - Go to **"Users"** and click on **"Create user"**.
 - Name the user `my_new_user`  or any other name of your choice.
 
-## Attach Policies
+# Attach Policies
 
 ### Option 1: Attach AdministratorAccess (Not recommended)
 ⚠️ **Warning**
@@ -98,13 +99,13 @@ Instead of using broad, predefined permissions, create custom policies tailored 
 
 
 
-## Save Your Access Keys
+# Save Your Access Keys
 
 - Find the newly created user.
 - Click on **"Create access key"**.
 - **Select the CLI option** and acknowledge the recommendations.
 
-## Store Keys as GitHub Secrets
+# Store Keys as GitHub Secrets
 
 To securely store your AWS access keys in GitHub:
 
@@ -115,7 +116,7 @@ To securely store your AWS access keys in GitHub:
 5. Click on **New repository secret**.
 6. Name the secrets as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` respectively and paste their values into the fields provided.
 
-## Configure the Region
+# Configure the Region
 
 To specify the AWS region for your CDK deployment, update the `setup.sh` file. This configuration ensures that your AWS resources deploy to the intended geographical region. Follow these steps to modify the region setting:
 
@@ -129,7 +130,34 @@ To specify the AWS region for your CDK deployment, update the `setup.sh` file. T
 
 By setting the region in the `setup.sh` script, you control where AWS deploys the resources for your project. This change will take effect the next time you trigger the deployment workflow.
 
-## Trigger the Workflow
+
+# Bootstrap
+
+Before deploying cloud applications with the AWS Cloud Development Kit (CDK) in a new region, you must bootstrap your environment. This setup process prepares necessary resources like an S3 bucket for storing assets and IAM roles for CDK operations.
+
+## Bootstrap Command
+Use the command below to bootstrap your AWS environment:
+
+```
+cdk bootstrap aws://ACCOUNT_ID/REGION
+```
+
+- **ACCOUNT_ID**: Replace with your AWS account ID, a 12-digit number found in your account settings or user ARN.
+- **REGION**: Specify the AWS region code, e.g., `us-east-1`.
+
+Example for account ID `123456789012` and the region `us-east-1`:
+
+```
+cdk bootstrap aws://123456789012/us-east-1
+```
+
+## Options for Bootstrapping
+1. **Locally**: Run the bootstrap command from your local machine with AWS CLI configured.
+2. **Via setup.sh**: Temporarily add the bootstrap command to your `setup.sh` script used in GitHub Actions. `setup.sh` is located at `.github`. Remove the command after initial setup.
+
+Bootstrapping is essential for the first-time deployment of a CDK stack in any AWS region to ensure your infrastructure manages resources effectively.
+
+# Trigger the Workflow
 
 The GitHub Action workflow `cdk-deploy.yml` automates the deployment of the AWS CDK stack and triggers on any push that modifies `app.py` or any files within the `stacks/**` directory.
 
@@ -145,18 +173,16 @@ The workflow operates on an Ubuntu latest environment and includes these steps:
 
 The `setup.sh` script configures the environment for the AWS CDK deployment:
 
-- It links Python and pip executables to their version 3 counterparts.
-- Installs Python packages with pip and upgrades pip itself.
-- Installs `aws-cdk-lib` and `constructs`, which provide the necessary AWS services for the project.
-- Installs additional dependencies from `requirements.txt`.
-- Configures the AWS CLI to use the "us-east-1" region and set output format to "json".
-- Runs `cdk synth` to synthesize the CloudFormation template from the CDK application.
-- Executes `cdk deploy` to deploy the CDK stack to AWS.
+
+1. Link Python and pip to version 3 and install all required Python packages including `aws-cdk-lib`, `constructs`, and dependencies from `requirements.txt`.
+2. Configure AWS CLI settings for the "us-east-1" region with JSON output.
+3. Synthesize and deploy the CDK stack to AWS using `cdk synth` and `cdk deploy`.
+
 
 To initiate this workflow, commit changes to `app.py` or any files in the `stacks` directory and push them to your GitHub repository.
 
 
-## View the Stack in the AWS Console
+# View the Stack in the AWS Console
 
 After the deployment completes, you can view the status and configuration of your CDK stack in the AWS Management Console. Here are the steps to locate and review your deployed stack:
 
