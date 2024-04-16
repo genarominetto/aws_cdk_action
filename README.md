@@ -56,7 +56,7 @@ To start using this project, fork the repository to create a personal copy.
 
 # Create an IAM User
 
-Create a new IAM user in your AWS account to dedicate to GitHub Actions.
+Create a new IAM user in your AWS account.
 
 - **Navigate** to the **AWS Management Console**.
 - **Type "IAM"** in the search bar and **select it**.
@@ -135,7 +135,7 @@ By setting the region in the `setup.sh` script, you control where AWS deploys th
 
 Before deploying cloud applications with the AWS Cloud Development Kit (CDK) in a new region, you must bootstrap your environment. This setup process prepares necessary resources like an S3 bucket for storing assets and IAM roles for CDK operations.
 
-## Bootstrap Command
+### Bootstrap Command
 Use the command below to bootstrap your AWS environment:
 
 ```
@@ -151,7 +151,7 @@ Example for account ID `123456789012` and the region `us-east-1`:
 cdk bootstrap aws://123456789012/us-east-1
 ```
 
-## Options for Bootstrapping
+### Options for Bootstrapping
 1. **Locally**: Run the bootstrap command from your local machine with AWS CLI configured.
 2. **Via setup.sh**: Temporarily add the bootstrap command to your `setup.sh` script used in GitHub Actions. `setup.sh` is located at `.github`. Remove the command after initial setup.
 
