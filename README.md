@@ -9,9 +9,8 @@
     - [Fork the Repository](#fork-the-repository)
     - [Create an IAM User](#create-an-iam-user)
     - [Attach Policies](#attach-policies)
-        - [Option 1: Attach AdministratorAccess (Not Recommended)](#option-1-attach-administratoraccess-not-recommended)
-        - [Option 2: Attach managed policies directly (Not Recommended)](#option-2-attach-managed-policies-directly-not-recommended)
-        - [Option 3: Attach custom policies](#option-3-attach-custom-policies)
+        - [Option 1: Attach managed policies directly (Not Recommended)](#option-2-attach-managed-policies-directly-not-recommended)
+        - [Option 2: Attach custom policies](#option-3-attach-custom-policies)
     - [Save Your Access Keys](#save-your-access-keys)
     - [Store Keys as GitHub Secrets](#store-keys-as-github-secrets)
     - [Configure the Region](#configure-the-region)
@@ -65,18 +64,8 @@ Create a new IAM user in your AWS account.
 
 # Attach Policies
 
-### Option 1: Attach AdministratorAccess (Not recommended)
-⚠️ **Warning**
 
-This policy grants a user unrestricted access across all AWS services and resources, which includes the ability to modify roles, policies, and access controls. Such permissions allow the user to potentially alter or delete critical infrastructure, impacting service reliability and organizational security.
-
-To attach this policy:
-1. Select the newly created user.
-2. Click on **Add permissions**.
-3. Click on **Attach policies directly**.
-4. Select `AdministratorAccess` from the list of available policies.
-
-### Option 2: Attach Managed Policies Directly (Not recommended)
+### Option 1: Attach Managed Policies Directly (Not recommended)
 ⚠️ **Warning**
 
 When you give a user full access to IAM, there is no limit to the permissions that user can grant to him/herself or others. The user can create new IAM entities (users or roles) and grant those entities full access to all resources in your AWS account. When you give a user full access to IAM, you are effectively giving them full access to all resources in your AWS account. This includes access to delete all resources. You should grant these permissions to only trusted administrators, and you should enforce multi-factor authentication (MFA) for these administrators.
@@ -93,7 +82,7 @@ To attach these policies:
    - `AWSCodeDeployFullAccess`
    - `IAMFullAccess`
 
-### Option 3: Attach Custom Policies
+### Option 2: Attach Custom Policies
 
 Instead of using broad, predefined permissions, create custom policies tailored to the specific needs of your tasks and projects. This approach enhances security by strictly limiting access according to the principle of least privilege. Once these custom policies are crafted, attach them to a group and then add users to this group. This method consolidates policy management and streamlines user permissions oversight. For more detailed instructions on creating and managing custom policies, refer to the [AWS IAM permissions delegation documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_delegate-permissions_examples.html).
 
